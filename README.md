@@ -29,8 +29,8 @@ Glance: Accelerating Diffusion Models with 1 Sample
 
 1. Clone the repository and navigate into it:
    ```bash
-   git clone https://github.com/FlyMyAI/flymyai-lora-trainer
-   cd flymyai-lora-trainer
+   https://github.com/CSU-JPG/Glance.git
+   cd Glance
    ```
 
 2. Install required packages:
@@ -45,10 +45,10 @@ Glance: Accelerating Diffusion Models with 1 Sample
 
 4. Download pre-trained LoRA weights (optional):
    ```bash
-   # Qwen LoRA weights
+   # Qwen Slow-LoRA weights
    git clone https://huggingface.co/flymy-ai/qwen-image-realism-lora
    
-   # FLUX LoRA weights
+   # Qwen Fast-LoRA weights
    git clone https://huggingface.co/flymy-ai/flux-dev-anne-hathaway-lora
    
    # Or download specific files
@@ -60,7 +60,7 @@ Glance: Accelerating Diffusion Models with 1 Sample
 
 ## 📁 Data Preparation
 
-### Dataset Structure for Training
+### Dataset Structure for Qwen-Image and FLUX Training
 
 The training data should follow the same format for both Qwen and FLUX models, where each image has a corresponding text file with the same name:
 
@@ -68,11 +68,6 @@ The training data should follow the same format for both Qwen and FLUX models, w
 dataset/
 ├── img1.png
 ├── img1.txt
-├── img2.jpg
-├── img2.txt
-├── img3.png
-├── img3.txt
-└── ...
 ```
 
 ### Dataset Structure for Qwen-Image-Edit Training
@@ -98,20 +93,6 @@ dataset/
 2. **Text files**: Plain text files containing image descriptions
 3. **File naming**: Each image must have a corresponding text file with the same base name
 
-### Example Data Structure
-
-```
-my_training_data/
-├── portrait_001.png
-├── portrait_001.txt
-├── landscape_042.jpg
-├── landscape_042.txt
-├── abstract_design.png
-├── abstract_design.txt
-└── style_reference.jpg
-└── style_reference.txt
-```
-
 ### Text File Content Examples
 
 **For FLUX character training (portrait_001.txt):**
@@ -134,11 +115,7 @@ ohwx woman, modern portrait style, soft lighting, artistic composition
 1. **Image Quality**: Use high-resolution images (recommended 1024x1024 or higher)
 2. **Description Quality**: Write detailed, accurate descriptions of your images
 3. **Consistency**: Maintain consistent style and quality across your dataset
-4. **Dataset Size**: For good results, use at least 10-50 image-text pairs
-5. **Trigger Words**: 
-   - For FLUX character training: Use "ohwx woman" or "ohwx man" as trigger words
-   - For Qwen training: No specific trigger words required
-6. **Auto-generate descriptions**: You can generate image descriptions automatically using [Florence-2](https://huggingface.co/spaces/gokaygokay/Florence-2)
+4. **Auto-generate descriptions**: You can generate image descriptions automatically using [Florence-2](https://huggingface.co/spaces/gokaygokay/Florence-2)
 
 ### Quick Data Validation
 
