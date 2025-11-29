@@ -1,36 +1,36 @@
 # Glance
-Glance: Accelerating Diffusion Models with 1 Sample
 
-## 📅 Updates
+Official PyTorch implementation of the paper:
 
-**16.10.2025**
-- ✅ Added FLUX.1-dev LoRA training support
-- ✅ Added pre-trained FLUX LoRA model example
+**Glance: Accelerating Diffusion Models with 1 Sample**
+<br>
+[Zhuobai Dong](https://zhuobaidong.github.io/)<sup>1</sup>, 
+[Rui Zhao]()<sup>2</sup>,
+[Songjie Wu]()<sup>3</sup>,
+[Junchao Yi]()<sup>4</sup>,
+[Linjie Li]()<sup>5</sup>, 
+[Zhengyuan Yang]()<sup>5</sup>, 
+[Lijuan Wang]()<sup>5</sup>, 
+[Alex Jinpeng Wang]()<sup>3</sup><br>
+<sup>1</sup>WuHan University, <sup>2</sup>National University of Singapore, <sup>3</sup>Central South University, <sup>4</sup>University of Electronic Science and Technology of China, <sup>5</sup>Microsoft
+<br>
+[arXiv](https://arxiv.org/abs/2510.14974) | [homepage](https://zhuobaidong.github.io/Glance/) | [Model🤗](https://huggingface.co/spaces/Lakonik/pi-Qwen)
+
+<img src="assets/teaser.jpg" alt=""/>
+
+## 🔥News
+
+- [Nov 7, 2025] [ComfyUI-piFlow](https://github.com/Lakonik/ComfyUI-piFlow) is now available! Supports 4-step sampling of Qwen-Image and Flux.1 dev using 8-bit models on a single consumer-grade GPU, powered by [ComfyUI](https://github.com/comfyanonymous/ComfyUI).
 
 **02.09.2025**
 - ✅ Added full training for Qwen-Image and Qwen-Image-Edit
 
-**20.08.2025**
-- ✅ Added Qwen-Image-Edit LoRA trainer support
-
-**09.08.2025**
-- ✅ Add pipeline for train for < 24GiB GPU
-
-**08.08.2025**
-- ✅ Added comprehensive dataset preparation instructions
-- ✅ Added dataset validation script (`utils/validate_dataset.py`)
-- ✅ Freeze model weights during training
-
-
 ## 📦 Installation
 
-**Requirements:**
-- Python 3.10
-
-1. Clone the repository and navigate into it:
+1. Create conda environment
    ```bash
-   https://github.com/CSU-JPG/Glance.git
-   cd Glance
+   conda create -n glance python=3.10 -y
+   conda activate glance
    ```
 
 2. Install required packages:
