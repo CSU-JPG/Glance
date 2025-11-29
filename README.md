@@ -1,4 +1,4 @@
-# Glance
+# Glance: One Sample Distillation Model
 
 Official PyTorch implementation of the paper:
 
@@ -158,9 +158,9 @@ Make sure `train_lora.yaml` is correctly set up with paths to your dataset, mode
 
 ## Inference: Diffusers Pipelines
 
-We provide diffusers pipelines for easy inference. The following code demonstrates how to sample images from the distilled Qwen-Image and FLUX models.
+We provide pipelines for easy inference. The following code demonstrates how to sample images from the distilled Qwen-Image model.
 
-### [4-NFE GM-Qwen (GMFlow Policy)](demo/example_gmqwen_pipeline.py)
+### [Glance (Qwen-Image)](demo/example_gmqwen_pipeline.py)
 Note: GM-Qwen supports elastic inference. Feel free to set `num_inference_steps` to any value above 4.
 ```python
 import torch
