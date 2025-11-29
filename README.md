@@ -14,9 +14,9 @@ Official PyTorch implementation of the paper:
 [Alex Jinpeng Wang]()<sup>3</sup><br>
 <sup>1</sup>WuHan University, <sup>2</sup>National University of Singapore, <sup>3</sup>Central South University, <sup>4</sup>University of Electronic Science and Technology of China, <sup>5</sup>Microsoft
 <br>
-[arXiv](https://arxiv.org/abs/2510.14974) | [homepage](https://zhuobaidong.github.io/Glance/) | [Model🤗](https://huggingface.co/spaces/Lakonik/pi-Qwen)
+[ArXiv](https://arxiv.org/abs/2510.14974) | [Homepage](https://zhuobaidong.github.io/Glance/) | [Model🤗](https://huggingface.co/spaces/Lakonik/pi-Qwen)
 
-<img src="assets/teaser.jpg" alt=""/>
+<img src="assets/teaser.png" alt=""/>
 
 ## 🔥News
 
@@ -155,3 +155,38 @@ accelerate launch train.py --config ./train_configs/train_lora.yaml
 ```
 
 Make sure `train_lora.yaml` is correctly set up with paths to your dataset, model, output directory, and other parameters.
+
+## Inference: Diffusers Pipelines
+
+We provide diffusers pipelines for easy inference. The following code demonstrates how to sample images from the distilled Qwen-Image and FLUX models.
+
+### [4-NFE GM-Qwen (GMFlow Policy)](demo/example_gmqwen_pipeline.py)
+Note: GM-Qwen supports elastic inference. Feel free to set `num_inference_steps` to any value above 4.
+```python
+import torch
+from diffusers import FlowMatchEulerDiscreteScheduler
+from lakonlab.pipelines.piqwen_pipeline import PiQwenImagePipeline
+
+pipe = PiQwenImagePipeline.from_pretrained(
+    'Qwen/Qwen-Image',
+    torch_dtype=torch.bfloat16)
+adapter_name = pipe.load_piflow_adapter(  # you may later call `pipe.set_adapters([adapter_name, ...])` to combine other adapters (e.g., style LoRAs)
+    'Lakonik/pi-Qwen-Image',
+    subfolder='gmqwen_k8_piid_4step',
+    target_module_name='transformer')
+pipe.scheduler = FlowMatchEulerDiscreteScheduler.from_config(  # use fixed shift=3.2
+    pipe.scheduler.config, shift=3.2, shift_terminal=None, use_dynamic_shifting=False)
+pipe = pipe.to('cuda')
+
+out = pipe(
+    prompt='Photo of a coffee shop entrance featuring a chalkboard sign reading "π-Qwen Coffee 😊 $2 per cup," with a neon '
+           'light beside it displaying "π-通义千问". Next to it hangs a poster showing a beautiful Chinese woman, '
+           'and beneath the poster is written "e≈2.71828-18284-59045-23536-02874-71352".',
+    width=1920,
+    height=1080,
+    num_inference_steps=4,
+    generator=torch.Generator().manual_seed(42),
+).images[0]
+out.save('gmqwen_4nfe.png')
+```
+<img src="assets/gmqwen_4nfe.png" width="600" alt=""/>
