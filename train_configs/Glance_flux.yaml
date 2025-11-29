@@ -1,0 +1,37 @@
+pretrained_model_name_or_path: black-forest-labs/FLUX.1-dev
+data_config:
+  train_batch_size: 1
+  num_workers: 4
+  img_size: 1024
+  caption_dropout_rate: 0
+  img_dir: ./your_sample
+  random_ratio: false 
+  caption_type: txt
+report_to: null
+train_batch_size: 1
+output_dir: ./lora_saves
+max_train_steps: 60
+learning_rate: 5e-4
+lr_scheduler: constant
+lr_warmup_steps: 10
+adam_beta1: 0.9
+adam_beta2: 0.999
+adam_weight_decay: 0.01
+adam_epsilon: 1e-8
+max_grad_norm: 1.0
+logging_dir: logs
+mixed_precision: "bf16"
+checkpointing_steps: 60
+checkpoints_total_limit: 10
+tracker_project_name: lora_test
+resume_from_checkpoint: latest
+gradient_accumulation_steps: 1
+rank: 16
+double_blocks: null
+disable_sampling: false
+sample_every: 250 # sample every this many steps
+sample_width: 1024
+sample_height: 1024
+sample_steps: 20
+Slow_LoRA: true
+Fast_LoRA: false
