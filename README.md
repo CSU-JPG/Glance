@@ -93,8 +93,7 @@ dataset/
 
 1. **Image Quality**: Use high-resolution images (recommended 1024x1024 or higher)
 2. **Description Quality**: Write detailed, accurate descriptions of your images
-3. **Consistency**: Maintain consistent style and quality across your dataset
-4. **Auto-generate descriptions**: You can generate image descriptions automatically using [Florence-2](https://huggingface.co/spaces/gokaygokay/Florence-2)
+3. **Auto-generate descriptions**: You can generate image descriptions automatically using [Florence-2](https://huggingface.co/spaces/gokaygokay/Florence-2)
 
 ### Quick Data Validation
 
@@ -103,11 +102,6 @@ You can verify your data structure using the included validation utility:
 ```bash
 python utils/validate_dataset.py --path path/to/your/dataset
 ```
-
-This will check that:
-- Each image has a corresponding text file
-- All files follow the correct naming convention
-- Report any missing files or inconsistencies
 
 ---
 
