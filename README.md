@@ -96,11 +96,15 @@ python utils/validate_dataset.py --path path/to/your/dataset
 ```
 
 ---
-## 🎨 Inference: Diffusers Pipelines
+## 🎨 Inference
 
-We provide pipelines for easy inference. The following code demonstrates how to sample images from the distilled Qwen-Image model.
+We provide solid 4-GPU inference code for easy multi-card sampling. You can experience our Glance model by running:
 
-### [Glance (Qwen-Image)](demo/example_gmqwen_pipeline.py)
+```bash
+CUDA_VISIBLE_DEVICES=0,1,2,3 python infer_Glance_qwen.py
+```
+
+### [Glance (Qwen-Image)]
 ```python
 import torch
 from pipeline.qwen import GlanceQwenSlowPipeline, GlanceQwenFastPipeline
