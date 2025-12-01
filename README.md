@@ -96,37 +96,11 @@ python utils/validate_dataset.py --path path/to/your/dataset
 ```
 
 ---
-
-## 🏁 Start Training on < 24gb vram
-
-To begin training with your configuration file (e.g., `train_lora_4090.yaml`), run:
-
-```bash
-accelerate launch train_4090.py --config ./train_configs/train_lora_4090.yaml
-```
-![Sample Output](./assets/Valentin_24gb.jpg)
-
-
-## 🏁 Training
-
-# Qwen Models Training
-
-## Qwen-Image LoRA Training
-
-To begin training with your configuration file (e.g., `train_lora.yaml`), run:
-
-```bash
-accelerate launch train.py --config ./train_configs/train_lora.yaml
-```
-
-Make sure `train_lora.yaml` is correctly set up with paths to your dataset, model, output directory, and other parameters.
-
-## Inference: Diffusers Pipelines
+## 🎨 Inference: Diffusers Pipelines
 
 We provide pipelines for easy inference. The following code demonstrates how to sample images from the distilled Qwen-Image model.
 
 ### [Glance (Qwen-Image)](demo/example_gmqwen_pipeline.py)
-Note: GM-Qwen supports elastic inference. Feel free to set `num_inference_steps` to any value above 4.
 ```python
 import torch
 from pipeline.qwen import GlanceQwenSlowPipeline, GlanceQwenFastPipeline
@@ -168,4 +142,28 @@ image = fast_pipe(
 ).images[0]
 image.save("output.png")
 ```
-<img src="assets/gmqwen_4nfe.png" width="600" alt=""/>
+### 🖼️ Sample Output - Glance-Qwen-Image
+
+![Sample Output](./assets/qwen.png)
+
+## 🏁 Start Training on < 24gb vram
+
+To begin training with your configuration file (e.g., `train_lora_4090.yaml`), run:
+
+```bash
+accelerate launch train_4090.py --config ./train_configs/train_lora_4090.yaml
+```
+![Sample Output](./assets/Valentin_24gb.jpg)
+
+
+## 🚀 Training
+
+### Qwen-Image LoRA Training
+
+To begin training with your configuration file, run:
+
+```bash
+accelerate launch train.py --config ./train_configs/train_lora.yaml
+```
+
+Make sure `train_lora.yaml` is correctly set up with paths to your dataset, model, output directory, and other parameters.
