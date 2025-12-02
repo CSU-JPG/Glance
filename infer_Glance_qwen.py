@@ -17,15 +17,13 @@ latents = slow_pipe(
     true_cfg_scale=5,
     generator=torch.Generator(device="cuda").manual_seed(0), 
     output_type="latent"
-).images[0]
-cached_latents = latents.unsqueeze(0).detach().cpu()
+).images[0].unsqueeze(0).detach().cpu()
 free_pipe(slow_pipe)
 
 fast_pipe = GlanceQwenFastPipeline.from_pretrained("Qwen/Qwen-Image", torch_dtype=torch.float32)
 fast_pipe.load_lora_weights(repo, weight_name="glance_qwen_fast.safetensors")
 distribute(fast_pipe)
 
-loaded_latents = cached_latents.to("cuda:0", dtype=fast_pipe.transformer.dtype)
 image = fast_pipe(
     prompt=prompt,
     negative_prompt=" ", 
@@ -34,6 +32,7 @@ image = fast_pipe(
     num_inference_steps=5, 
     true_cfg_scale=5,
     generator=torch.Generator(device="cuda").manual_seed(0), 
-    latents=loaded_latents 
+    latents=latents.to("cuda", dtype=torch.float32)
 ).images[0]
 image.save("output.png")
+
