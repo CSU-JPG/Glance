@@ -14,7 +14,7 @@ Official PyTorch implementation of the paper:
 [Alex Jinpeng Wang](https://fingerrec.github.io/)<sup>3</sup><br>
 <sup>1</sup>WuHan University, <sup>2</sup>National University of Singapore, <sup>3</sup>Central South University, <sup>4</sup>University of Electronic Science and Technology of China, <sup>5</sup>Microsoft
 <br>
-[ArXiv](https://arxiv.org/abs/2512.02899) | [Homepage](https://zhuobaidong.github.io/Glance/) | [Model🤗](https://huggingface.co/CSU-JPG/Glance)
+[ArXiv](https://arxiv.org/abs/2512.02899) | [Homepage](https://zhuobaidong.github.io/Glance/) | [Model🤗](https://huggingface.co/CSU-JPG/Glance) | [Demo](https://d659ddf717b1988d64.gradio.live)
 
 <img src="assets/teaser.png" alt=""/>
 
