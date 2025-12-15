@@ -21,6 +21,7 @@ Official PyTorch implementation of the paper:
 ## 🔥News
 
 - [Dec 1, 2025] Glance has been officially released! You can now experiment with our 1-sample distilled model.
+- [Dec 15, 2025] Added single-GPU inference code for Glance-Qwen
 
 ## 📦 Installation
 
