@@ -449,7 +449,14 @@ def main():
                 lr_scheduler.step()
                 optimizer.zero_grad()
 
-            if global_step % args.checkpointing_steps == 0:
+            # Checks if the accelerator has performed an optimization step behind the scenes
+            if accelerator.sync_gradients:
+                progress_bar.update(1)
+                global_step += 1
+                accelerator.log({"train_loss": train_loss}, step=global_step)
+                train_loss = 0.0
+
+                if global_step % args.checkpointing_steps == 0:
                     if accelerator.is_main_process:
                         # 1. Determine the folder name based on the mode
                         if args.Slow_LoRA:
@@ -464,8 +471,7 @@ def main():
                             checkpoints = os.listdir(args.output_dir)
                             checkpoints = [d for d in checkpoints if d.startswith("checkpoint")]
                             
-                            # IMPORTANT: Changed [1] to [-1]. 
-                            # This ensures we grab the number at the end (e.g., from 'checkpoint-slow-500' -> 500)
+                            # IMPORTANT: Use [-1] to get the number at the end (e.g., from 'checkpoint-slow-500' -> 500)
                             try:
                                 checkpoints = sorted(checkpoints, key=lambda x: int(x.split("-")[-1]))
                             except ValueError:
@@ -473,6 +479,7 @@ def main():
                                 logger.warning("Could not sort some checkpoint folders by step number.")
                                 checkpoints = sorted(checkpoints)
 
+                            # before we save the new checkpoint, we need to have at _most_ `checkpoints_total_limit - 1` checkpoints
                             if len(checkpoints) >= args.checkpoints_total_limit:
                                 num_to_remove = len(checkpoints) - args.checkpoints_total_limit + 1
                                 removing_checkpoints = checkpoints[0:num_to_remove]
@@ -508,59 +515,6 @@ def main():
                         )
 
                         logger.info(f"Saved state to {save_path}")
-
-            # Checks if the accelerator has performed an optimization step behind the scenes
-            if accelerator.sync_gradients:
-                progress_bar.update(1)
-                global_step += 1
-                accelerator.log({"train_loss": train_loss}, step=global_step)
-                train_loss = 0.0
-
-                if global_step % args.checkpointing_steps == 0:
-                    if accelerator.is_main_process:
-                        if args.Slow_LoRA:
-                            ckpt_folder_name = f"checkpoint-slow-{global_step}"
-                        elif args.Fast_LoRA:
-                            ckpt_folder_name = f"checkpoint-fast-{global_step}"
-
-                        if args.checkpoints_total_limit is not None:
-                            checkpoints = os.listdir(args.output_dir)
-                            checkpoints = [d for d in checkpoints if d.startswith("checkpoint")]
-                            checkpoints = sorted(checkpoints, key=lambda x: int(x.split("-")[1]))
-
-                            # before we save the new checkpoint, we need to have at _most_ `checkpoints_total_limit - 1` checkpoints
-                            if len(checkpoints) >= args.checkpoints_total_limit:
-                                num_to_remove = len(checkpoints) - args.checkpoints_total_limit + 1
-                                removing_checkpoints = checkpoints[0:num_to_remove]
-
-                                logger.info(
-                                    f"{len(checkpoints)} checkpoints already exist, removing {len(removing_checkpoints)} checkpoints"
-                                )
-                                logger.info(f"removing checkpoints: {', '.join(removing_checkpoints)}")
-
-                                for removing_checkpoint in removing_checkpoints:
-                                    removing_checkpoint = os.path.join(args.output_dir, removing_checkpoint)
-                                    shutil.rmtree(removing_checkpoint)
-
-                    save_path = os.path.join(args.output_dir, ckpt_folder_name)
-
-                    try:
-                        if not os.path.exists(save_path):
-                            os.mkdir(save_path)
-                    except:
-                        pass
-                    unwrapped_qwen_transformer = unwrap_model(qwen_transformer)
-                    qwen_transformer_lora_state_dict = convert_state_dict_to_diffusers(
-                        get_peft_model_state_dict(unwrapped_qwen_transformer)
-                    )
-
-                    QwenImagePipeline.save_lora_weights(
-                        save_path,
-                        qwen_transformer_lora_state_dict,
-                        safe_serialization=True,
-                    )
-
-                    logger.info(f"Saved state to {save_path}")
 
             logs = {"step_loss": loss.detach().item(), "lr": lr_scheduler.get_last_lr()[0]}
             progress_bar.set_postfix(**logs)
