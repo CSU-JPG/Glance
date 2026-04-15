@@ -7,6 +7,7 @@ Official PyTorch implementation of the paper:
 [Zhuobai Dong](https://zhuobaidong.github.io/)<sup>1</sup>, 
 [Rui Zhao](https://ruizhaocv.github.io/)<sup>2</sup>,
 [Songjie Wu](https://songjiewu1.github.io/)<sup>3</sup>,
+[Suyang Hou](https://suyanglumiere.github.io)<sup>3</sup>,
 [Junchao Yi](https://github.com/Junc1i)<sup>4</sup>,
 [Linjie Li](https://scholar.google.com/citations?user=WR875gYAAAAJ&hl=en)<sup>5</sup>, 
 [Zhengyuan Yang](https://zyang-ur.github.io/)<sup>5</sup>, 
