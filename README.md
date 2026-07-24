@@ -4,6 +4,8 @@ Official PyTorch implementation of the paper:
 
 **Glance: Accelerating Diffusion Models with 1 Sample**
 <br>
+In ECCV 2026
+<br>
 [Zhuobai Dong](https://zhuobaidong.github.io/)<sup>1</sup>, 
 [Rui Zhao](https://ruizhaocv.github.io/)<sup>2</sup>,
 [Songjie Wu](https://songjiewu1.github.io/)<sup>3</sup>,
